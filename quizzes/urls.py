@@ -1,9 +1,11 @@
-from django.urls import path, include
-from .api import RegisterAPI,LoginAPI,UserAPI
-from knox import views as knox_views
+from django.urls import path, re_path
+from quizzes.api import MyQuizListAPI, QuizListAPI, QuizDetailAPI, SaveUsersAnswer, SubmitQuizAPI
+
+
 urlpatterns = [
- path('api/auth/',include('knox.urls')),
- path('api/auth/register/',RegisterAPI.as_view()),
- path('api/auth/login',LoginAPI.as_view()),
- path('api/auth/user/',UserAPI.as_view()),
+	path("my-quizzes/", MyQuizListAPI.as_view()),
+	path("quizzes/", QuizListAPI.as_view()),
+	path("save-answer/", SaveUsersAnswer.as_view()),
+	re_path(r"quizzes/(?P<slug>[\w\-]+)/$", QuizDetailAPI.as_view()),
+	re_path(r"quizzes/(?P<slug>[\w\-]+)/submit/$", SubmitQuizAPI.as_view()),
 ]
